@@ -1,10 +1,10 @@
-# @opsmeter/node (Official opsmeter.io SDK)
+# @opsmeter.io/node (Official opsmeter.io SDK)
 
-[![npm version](https://img.shields.io/npm/v/%40opsmeter%2Fnode)](https://www.npmjs.com/package/@opsmeter/node)
+[![npm version](https://img.shields.io/npm/v/%40opsmeter.io%2Fnode)](https://www.npmjs.com/package/@opsmeter.io/node)
 [![license](https://img.shields.io/github/license/opsmeter-io/opsmeter.io-node-sdk)](https://github.com/opsmeter-io/opsmeter.io-node-sdk/blob/main/LICENSE)
 
 Node SDK preview for Opsmeter auto-instrumentation.
-npm package: [@opsmeter/node](https://www.npmjs.com/package/@opsmeter/node)
+npm package: [@opsmeter.io/node](https://www.npmjs.com/package/@opsmeter.io/node)
 Integration examples: [opsmeter-integration-examples](https://github.com/opsmeter-io/opsmeter.io-integration-examples)
 Opsmeter site: [https://opsmeter.io](https://opsmeter.io)
 Official publisher identity: **opsmeter.io**.
@@ -33,7 +33,7 @@ Examples:
 ## Install
 
 ```bash
-npm install @opsmeter/node openai
+npm install @opsmeter.io/node openai
 # optional:
 # npm install @anthropic-ai/sdk
 ```
@@ -48,7 +48,7 @@ npm install @opsmeter/node openai
 ## Telemetry usage (no options)
 
 ```ts
-import * as opsmeter from "@opsmeter/node";
+import * as opsmeter from "@opsmeter.io/node";
 import OpenAI from "openai";
 
 opsmeter.init({
@@ -69,7 +69,7 @@ await opsmeter.captureOpenAIChatCompletion(
 ## Telemetry usage (with options/context)
 
 ```ts
-import * as opsmeter from "@opsmeter/node";
+import * as opsmeter from "@opsmeter.io/node";
 import OpenAI from "openai";
 import Anthropic from "@anthropic-ai/sdk";
 

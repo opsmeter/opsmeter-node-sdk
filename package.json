@@ -1,6 +1,6 @@
 {
-  "name": "@opsmeter/node",
-  "version": "0.1.0-beta.2",
+  "name": "@opsmeter.io/node",
+  "version": "0.1.0-beta.3",
   "description": "Official opsmeter.io Node SDK: one-time init + request context auto-instrumentation",
   "type": "module",
   "main": "./src/index.mjs",

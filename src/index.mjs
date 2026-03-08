@@ -32,7 +32,7 @@ function safeNow() {
 
 function logDebug(...args) {
   if (state.config?.debug) {
-    console.debug('[opsmeter-sdk]', ...args);
+    console.debug('[opsmeter.io-sdk]', ...args);
   }
 }
 
