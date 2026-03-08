@@ -1,0 +1,5 @@
+node_modules/
+.npm/
+coverage/
+dist/
+.DS_Store
