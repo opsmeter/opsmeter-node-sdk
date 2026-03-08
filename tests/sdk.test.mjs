@@ -93,6 +93,43 @@ test('captureOpenAIChatCompletionWithResult returns telemetry result when awaite
   assert.ok(result.externalRequestId.startsWith('ext_'));
 });
 
+test('captureOpenAIChatCompletionWithResult works without options', async () => {
+  init({ apiKey: 'key', enabled: false, environment: 'prod' });
+
+  const result = await captureOpenAIChatCompletionWithResult(
+    async () => ({
+      id: 'req_3',
+      model: 'gpt-4o-mini',
+      usage: { prompt_tokens: 2, completion_tokens: 1, total_tokens: 3 }
+    })
+  );
+
+  assert.equal(result.payload.provider, 'openai');
+  assert.equal(result.payload.model, 'gpt-4o-mini');
+  assert.equal(result.telemetry.status, 204);
+});
+
+test('captureOpenAIChatCompletionWithResult honors explicit options', async () => {
+  init({ apiKey: 'key', enabled: false, environment: 'prod' });
+
+  const result = await captureOpenAIChatCompletionWithResult(
+    async () => ({
+      id: 'req_4',
+      model: 'gpt-4o-mini',
+      usage: { prompt_tokens: 4, completion_tokens: 2, total_tokens: 6 }
+    }),
+    {
+      externalRequestId: 'ext_manual',
+      request: { model: 'gpt-4o-mini' },
+      awaitTelemetryResponse: true
+    }
+  );
+
+  assert.equal(result.externalRequestId, 'ext_manual');
+  assert.equal(result.payload.totalTokens, 6);
+  assert.equal(result.telemetry.status, 204);
+});
+
 test('captureAnthropicMessageWithResult marks provider as anthropic', async () => {
   init({ apiKey: 'key', enabled: false, environment: 'prod' });
 
