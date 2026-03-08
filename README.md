@@ -9,9 +9,6 @@ Integration examples: [opsmeter-integration-examples](https://github.com/opsmete
 Opsmeter site: [https://opsmeter.io](https://opsmeter.io)
 Official publisher identity: **opsmeter.io**.
 
-> Package name note: the official Node package is currently `@opsmeter/node`.
-> If scope naming changes later, this README will be the source of truth.
-
 Use this SDK for **LLM cost tracking**, **OpenAI usage monitoring**, **Anthropic usage telemetry**, and **no-proxy AI observability** in Node.js.
 
 Provider/model names should come from: [https://opsmeter.io/docs/catalog](https://opsmeter.io/docs/catalog)
@@ -23,18 +20,6 @@ Current SDK provider support: **OpenAI** and **Anthropic** only.
 - Docs: [https://opsmeter.io/docs](https://opsmeter.io/docs)
 - Model catalog: [https://opsmeter.io/docs/catalog](https://opsmeter.io/docs/catalog)
 - Integration examples: [https://github.com/opsmeter-io/opsmeter-integration-examples](https://github.com/opsmeter-io/opsmeter-integration-examples)
-
-## Package naming migration (planned)
-
-- Current package: `@opsmeter/node`
-- Target package: `@opsmeter.io/node`
-- Goal: make `opsmeter.io` identity explicit across npm + docs.
-
-Planned rollout:
-1. Publish `@opsmeter.io/node` with identical API.
-2. Keep `@opsmeter/node` as compatibility line for a transition window.
-3. Add npm deprecation notice on old scope with a migration message.
-4. Remove old scope from docs after transition completes.
 
 ## Model catalog (required)
 
