@@ -1,11 +1,11 @@
 # @opsmeter/node (Official opsmeter.io SDK)
 
 [![npm version](https://img.shields.io/npm/v/%40opsmeter%2Fnode)](https://www.npmjs.com/package/@opsmeter/node)
-[![license](https://img.shields.io/github/license/opsmeter-io/opsmeter-node-sdk)](https://github.com/opsmeter-io/opsmeter-node-sdk/blob/main/LICENSE)
+[![license](https://img.shields.io/github/license/opsmeter-io/opsmeter.io-node-sdk)](https://github.com/opsmeter-io/opsmeter.io-node-sdk/blob/main/LICENSE)
 
 Node SDK preview for Opsmeter auto-instrumentation.
 npm package: [@opsmeter/node](https://www.npmjs.com/package/@opsmeter/node)
-Integration examples: [opsmeter-integration-examples](https://github.com/opsmeter-io/opsmeter-integration-examples)
+Integration examples: [opsmeter-integration-examples](https://github.com/opsmeter-io/opsmeter.io-integration-examples)
 Opsmeter site: [https://opsmeter.io](https://opsmeter.io)
 Official publisher identity: **opsmeter.io**.
 
@@ -19,7 +19,7 @@ Current SDK provider support: **OpenAI** and **Anthropic** only.
 - Product: [https://opsmeter.io](https://opsmeter.io)
 - Docs: [https://opsmeter.io/docs](https://opsmeter.io/docs)
 - Model catalog: [https://opsmeter.io/docs/catalog](https://opsmeter.io/docs/catalog)
-- Integration examples: [https://github.com/opsmeter-io/opsmeter-integration-examples](https://github.com/opsmeter-io/opsmeter-integration-examples)
+- Integration examples: [https://github.com/opsmeter-io/opsmeter.io-integration-examples](https://github.com/opsmeter-io/opsmeter.io-integration-examples)
 
 ## Model catalog (required)
 
