@@ -2,6 +2,9 @@
 
 Node SDK preview for Opsmeter auto-instrumentation.
 
+Provider/model names should come from: [https://opsmeter.io/docs/catalog](https://opsmeter.io/docs/catalog)
+Current SDK provider support: **OpenAI** and **Anthropic** only.
+
 ## Install
 
 ```bash
@@ -20,6 +23,7 @@ npm install @opsmeter/node
 ```ts
 import * as opsmeter from "@opsmeter/node";
 import OpenAI from "openai";
+import Anthropic from "@anthropic-ai/sdk";
 
 opsmeter.init({
   apiKey: process.env.OPSMETER_API_KEY,
@@ -28,6 +32,7 @@ opsmeter.init({
 });
 
 const client = new OpenAI();
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const response = await opsmeter.withContext(
   {
@@ -38,8 +43,28 @@ const response = await opsmeter.withContext(
     promptVersion: "v12"
   },
   async () => opsmeter.captureOpenAIChatCompletion(
+    // Provider/model names: https://opsmeter.io/docs/catalog
     () => client.chat.completions.create({ model: "gpt-4o-mini", messages: [{ role: "user", content: "hello" }] }),
     { request: { model: "gpt-4o-mini" } }
+  )
+);
+
+const anthropicResponse = await opsmeter.withContext(
+  {
+    userId: "u_1",
+    tenantId: "tenant_a",
+    endpoint: "/api/support",
+    feature: "support",
+    promptVersion: "v8"
+  },
+  async () => opsmeter.captureAnthropicMessage(
+    // Provider/model names: https://opsmeter.io/docs/catalog
+    () => anthropic.messages.create({
+      model: "claude-3-5-sonnet-20241022",
+      max_tokens: 128,
+      messages: [{ role: "user", content: "Summarize this support ticket." }]
+    }),
+    { request: { model: "claude-3-5-sonnet-20241022" } }
   )
 );
 ```
@@ -64,7 +89,10 @@ console.log(captured.telemetry); // { ok, status, body? }
 - `getCurrentContext()`
 - `captureOpenAIChatCompletion(fn, options)`
 - `captureOpenAIChatCompletionWithResult(fn, options)`
+- `captureAnthropicMessage(fn, options)`
+- `captureAnthropicMessageWithResult(fn, options)`
 - `patchOpenAIClient(client)`
+- `patchAnthropicClient(client)`
 - `flush()`
 
 ## Tests

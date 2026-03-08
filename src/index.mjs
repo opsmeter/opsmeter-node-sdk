@@ -64,6 +64,14 @@ function normalizeDataMode(value) {
   return normalized;
 }
 
+function normalizeProvider(value, fallback = 'openai') {
+  const candidate = String(value || fallback).toLowerCase();
+  if (candidate === 'openai' || candidate === 'anthropic') {
+    return candidate;
+  }
+  return String(fallback || 'openai').toLowerCase() === 'anthropic' ? 'anthropic' : 'openai';
+}
+
 function normalizeInit(config) {
   if (!config || typeof config !== 'object') {
     throw new Error('init config is required.');
@@ -203,6 +211,7 @@ function generateExternalRequestId(seed) {
 }
 
 function buildPayloadFromCapture({
+  provider,
   operation,
   request,
   response,
@@ -216,7 +225,7 @@ function buildPayloadFromCapture({
 
   return {
     externalRequestId,
-    provider: 'openai',
+    provider,
     model: String(response?.model || request?.model || 'unknown'),
     promptVersion: context.promptVersion || 'unknown',
     endpointTag: context.feature || context.endpoint || 'sdk.unknown',
@@ -380,21 +389,23 @@ async function emitTelemetry(payload, { awaitTelemetryResponse = false } = {}) {
 
 async function captureInternal(fn, options = {}, { detailed = false } = {}) {
   if (typeof fn !== 'function') {
-    throw new Error('captureOpenAIChatCompletion requires a function callback.');
+    throw new Error('capture call requires a function callback.');
   }
 
   const start = safeNow();
   const context = getCurrentContext();
-  const operation = options.operation || 'chat.completions.create';
+  const provider = normalizeProvider(options.provider, 'openai');
+  const operation = options.operation || (provider === 'anthropic' ? 'messages.create' : 'chat.completions.create');
   const request = options.request || null;
   const externalRequestId =
     options.externalRequestId ||
     context.externalRequestId ||
-    generateExternalRequestId(`${operation}:${request?.model || 'unknown'}:${start}`);
+    generateExternalRequestId(`${provider}:${operation}:${request?.model || 'unknown'}:${start}`);
 
   try {
     const response = await fn();
     const payload = buildPayloadFromCapture({
+      provider,
       operation,
       request,
       response,
@@ -415,6 +426,7 @@ async function captureInternal(fn, options = {}, { detailed = false } = {}) {
     return response;
   } catch (error) {
     const payload = buildPayloadFromCapture({
+      provider,
       operation,
       request,
       response: null,
@@ -433,11 +445,35 @@ async function captureInternal(fn, options = {}, { detailed = false } = {}) {
 }
 
 export async function captureOpenAIChatCompletion(fn, options = {}) {
-  return captureInternal(fn, options, { detailed: false });
+  return captureInternal(fn, { ...options, provider: 'openai' }, { detailed: false });
 }
 
 export async function captureOpenAIChatCompletionWithResult(fn, options = {}) {
-  return captureInternal(fn, options, { detailed: true });
+  return captureInternal(fn, { ...options, provider: 'openai' }, { detailed: true });
+}
+
+export async function captureAnthropicMessage(fn, options = {}) {
+  return captureInternal(
+    fn,
+    {
+      ...options,
+      provider: 'anthropic',
+      operation: options.operation || 'messages.create'
+    },
+    { detailed: false }
+  );
+}
+
+export async function captureAnthropicMessageWithResult(fn, options = {}) {
+  return captureInternal(
+    fn,
+    {
+      ...options,
+      provider: 'anthropic',
+      operation: options.operation || 'messages.create'
+    },
+    { detailed: true }
+  );
 }
 
 export function patchOpenAIClient(client, options = {}) {
@@ -462,6 +498,31 @@ export function patchOpenAIClient(client, options = {}) {
   };
 
   client.chat.completions.create.__opsmeterPatched = true;
+  return { patched: true };
+}
+
+export function patchAnthropicClient(client, options = {}) {
+  const create = client?.messages?.create;
+  if (typeof create !== 'function') {
+    throw new Error('Anthropic client messages.create function not found.');
+  }
+
+  if (create.__opsmeterPatched) {
+    return { patched: false, reason: 'already_patched' };
+  }
+
+  const original = create;
+  client.messages.create = async function patched(request, ...args) {
+    return captureAnthropicMessage(
+      () => original.call(this, request, ...args),
+      {
+        operation: options.operation || 'messages.create',
+        request
+      }
+    );
+  };
+
+  client.messages.create.__opsmeterPatched = true;
   return { patched: true };
 }
 

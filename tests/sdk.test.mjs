@@ -6,6 +6,7 @@ import {
   getCurrentContext,
   captureOpenAIChatCompletion,
   captureOpenAIChatCompletionWithResult,
+  captureAnthropicMessageWithResult,
   resetForTests,
   flush
 } from '../src/index.mjs';
@@ -90,4 +91,27 @@ test('captureOpenAIChatCompletionWithResult returns telemetry result when awaite
   assert.equal(result.telemetry.ok, true);
   assert.equal(result.telemetry.status, 204);
   assert.ok(result.externalRequestId.startsWith('ext_'));
+});
+
+test('captureAnthropicMessageWithResult marks provider as anthropic', async () => {
+  init({ apiKey: 'key', enabled: false, environment: 'prod' });
+
+  const result = await captureAnthropicMessageWithResult(
+    async () => ({
+      id: 'msg_1',
+      model: 'claude-3-5-sonnet-20241022',
+      usage: {
+        input_tokens: 11,
+        output_tokens: 6
+      }
+    }),
+    {
+      request: { model: 'claude-3-5-sonnet-20241022' },
+      awaitTelemetryResponse: true
+    }
+  );
+
+  assert.equal(result.payload.provider, 'anthropic');
+  assert.equal(result.payload.totalTokens, 17);
+  assert.equal(result.telemetry.ok, true);
 });
