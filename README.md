@@ -1,14 +1,49 @@
-# @opsmeter/node (Preview)
+# @opsmeter/node (Official opsmeter.io SDK)
+
+[![npm version](https://img.shields.io/npm/v/%40opsmeter%2Fnode)](https://www.npmjs.com/package/@opsmeter/node)
+[![license](https://img.shields.io/github/license/opsmeter-io/opsmeter-node-sdk)](https://github.com/opsmeter-io/opsmeter-node-sdk/blob/main/LICENSE)
 
 Node SDK preview for Opsmeter auto-instrumentation.
 npm package: [@opsmeter/node](https://www.npmjs.com/package/@opsmeter/node)
-Integration examples: [opsmeter-integration-examples](https://github.com/opsmeter/opsmeter-integration-examples)
+Integration examples: [opsmeter-integration-examples](https://github.com/opsmeter-io/opsmeter-integration-examples)
 Opsmeter site: [https://opsmeter.io](https://opsmeter.io)
+Official publisher identity: **opsmeter.io**.
+
+> Package name note: the official Node package is currently `@opsmeter/node`.
+> If scope naming changes later, this README will be the source of truth.
 
 Use this SDK for **LLM cost tracking**, **OpenAI usage monitoring**, **Anthropic usage telemetry**, and **no-proxy AI observability** in Node.js.
 
 Provider/model names should come from: [https://opsmeter.io/docs/catalog](https://opsmeter.io/docs/catalog)
 Current SDK provider support: **OpenAI** and **Anthropic** only.
+
+## Quick links
+
+- Product: [https://opsmeter.io](https://opsmeter.io)
+- Docs: [https://opsmeter.io/docs](https://opsmeter.io/docs)
+- Model catalog: [https://opsmeter.io/docs/catalog](https://opsmeter.io/docs/catalog)
+- Integration examples: [https://github.com/opsmeter-io/opsmeter-integration-examples](https://github.com/opsmeter-io/opsmeter-integration-examples)
+
+## Package naming migration (planned)
+
+- Current package: `@opsmeter/node`
+- Target package: `@opsmeter.io/node`
+- Goal: make `opsmeter.io` identity explicit across npm + docs.
+
+Planned rollout:
+1. Publish `@opsmeter.io/node` with identical API.
+2. Keep `@opsmeter/node` as compatibility line for a transition window.
+3. Add npm deprecation notice on old scope with a migration message.
+4. Remove old scope from docs after transition completes.
+
+## Model catalog (required)
+
+Always use provider/model pairs from the official catalog:
+[https://opsmeter.io/docs/catalog](https://opsmeter.io/docs/catalog)
+
+Examples:
+- OpenAI: `provider=openai`, `model=gpt-4o-mini`
+- Anthropic: `provider=anthropic`, `model=claude-3-5-sonnet-20241022`
 
 ## Install
 

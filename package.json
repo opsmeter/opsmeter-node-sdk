@@ -1,7 +1,7 @@
 {
   "name": "@opsmeter/node",
   "version": "0.1.0-beta.2",
-  "description": "Opsmeter Node SDK preview: one-time init + request context auto-instrumentation",
+  "description": "Official opsmeter.io Node SDK: one-time init + request context auto-instrumentation",
   "type": "module",
   "main": "./src/index.mjs",
   "exports": {
@@ -19,20 +19,24 @@
   },
   "keywords": [
     "opsmeter",
+    "opsmeter.io",
     "llm",
     "observability",
     "cost-tracking",
-    "openai"
+    "openai",
+    "anthropic",
+    "telemetry",
+    "no-proxy"
   ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/opsmeter/opsmeter-node-sdk.git"
+    "url": "git+https://github.com/opsmeter-io/opsmeter-node-sdk.git"
   },
   "bugs": {
-    "url": "https://github.com/opsmeter/opsmeter-node-sdk/issues"
+    "url": "https://github.com/opsmeter-io/opsmeter-node-sdk/issues"
   },
-  "homepage": "https://github.com/opsmeter/opsmeter-node-sdk#readme",
+  "homepage": "https://github.com/opsmeter-io/opsmeter-node-sdk#readme",
   "publishConfig": {
     "access": "public"
   }
